@@ -36,6 +36,8 @@ public class BallMovement : MonoBehaviour
         {
             _rb.velocity = Vector2.zero;
             transform.position = Vector3.zero;
+            transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            gameObject.GetComponent<ColorChange>().ResetColorChange();
             LaunchBall();
         }
     }
