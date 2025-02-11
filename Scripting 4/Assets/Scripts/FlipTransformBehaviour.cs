@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class FlipTransformBehaviour : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public float directionRight = 0f, directionLeft = 180f;
+    
+    private void Update()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        var moveInput = Input.GetAxis("Horizontal");
+        if (moveInput > 0)
+        {
+            transform.eulerAngles = new Vector3(0f, directionRight, 0f);
+        }
+        else if (moveInput < 0)
+        {
+            transform.eulerAngles = new Vector3(0f, directionLeft, 0f);
+        }
     }
 }
