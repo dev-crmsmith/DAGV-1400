@@ -10,6 +10,7 @@ public class SimpleCharacterController : MonoBehaviour
     private CharacterController _controller;
     private Vector3 _velocity = Vector3.zero;
     private Transform _thisTransform;
+    private int _jumpCount = 0;
     void Start()
     {
         _controller = GetComponent<CharacterController>();
@@ -29,8 +30,9 @@ public class SimpleCharacterController : MonoBehaviour
         var move = new Vector3(moveInput, 0f, 0f) * (moveSpeed * Time.deltaTime);
         _controller.Move(move);
         
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && _jumpCount < 2)
         {
+            _jumpCount++;
             _velocity.y = Mathf.Sqrt(jumpForce * -2 * gravity);
         }
     }
@@ -44,6 +46,7 @@ public class SimpleCharacterController : MonoBehaviour
         else
         {
             _velocity.y = 0f;
+            _jumpCount = 0;
         }
 
         _controller.Move(_velocity * Time.deltaTime);
