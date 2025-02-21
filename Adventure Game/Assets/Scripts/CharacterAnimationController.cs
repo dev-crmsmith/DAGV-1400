@@ -4,14 +4,18 @@ public class CharacterAnimationController : MonoBehaviour
 {
     private int _jumpCount = 0;
     private Animator _animator;
+    private CharacterController _controller;
+    private Vector3 _velocity = Vector3.zero;
     private void Start()
     {
         // Cache the animator component attached to CharacterArt
         _animator = GetComponent<Animator>();
+        _controller = transform.parent.GetComponent<CharacterController>();
     }
 
     private void Update()
     {
+        _velocity = _controller.velocity;
         HandleAnimations();
     }
 
@@ -30,13 +34,21 @@ public class CharacterAnimationController : MonoBehaviour
         // Handle jumping animation
         if (Input.GetButtonDown("Jump"))
         {
-            if (_jumpCount == 0)
+            if (_controller.isGrounded)
             {
                 _animator.SetTrigger("Jump");
             }
-            else if (_jumpCount == 1)
+            else
             {
                 _animator.SetTrigger("DoubleJump");
+            }
+        }
+        
+        if (!_controller.isGrounded)
+        {
+            if (_velocity.y < 0)
+            {
+                _animator.SetTrigger("Fall");
             }
         }
         
